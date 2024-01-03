@@ -14,36 +14,28 @@ namespace Labb3_GymnasiumSchoolDB
             Console.WriteLine("** Students **");
             Console.WriteLine("[1] View all students");
             Console.WriteLine("[2] View students by class");
-            Console.WriteLine("[3] View grades recent month");
-            Console.WriteLine("[4] View grades statistics");
-            Console.WriteLine("[5] Add new student");
-            Console.WriteLine("[6] Return to menu");
+            Console.WriteLine("[3] Add new student");
+            Console.WriteLine("[4] Grades");
+            Console.WriteLine("[5] Return to menu");
 
-            int choice;
-            while (!int.TryParse(Console.ReadLine(), out choice))
-            {
-                Console.WriteLine("Invalid selection. Try again.");                              
-            }
+            string studentChoice = Console.ReadLine();
 
             Console.Clear();
-            switch (choice)
+            switch (studentChoice)
             {
-                case 1:
+                case "1":
                     ViewAllStudents(dbContext);
                     break;
-                case 2:
+                case "2":
                     ViewStudentsByClass(dbContext);
                     break;
-                case 3:
-                    StudentGrade.ViewGradesLatestMonth(dbContext);
-                    break;
-                case 4:
-                    StudentGrade.ViewCourseGradesStatistics(dbContext);
-                    break;
-                case 5:
+                case "3":
                     AddNewStudent(dbContext);
                     break;
-                case 6:
+                case "4":
+                    StudentGrade.Grades(dbContext);
+                    break;
+                case "5":
                     return;
                 default:
                     Console.WriteLine("Wrong input, try again");
@@ -66,6 +58,7 @@ namespace Labb3_GymnasiumSchoolDB
             }
 
             Console.Clear();
+            // Define the IQueryable variable for sorting students
             IQueryable<Student> students;
 
             switch (sortChoice)
@@ -88,11 +81,12 @@ namespace Labb3_GymnasiumSchoolDB
             }
             Console.Clear();
             Console.WriteLine("* All students *");
+            // Display all students based on the sorting choice
             foreach (var student in students)
             {
-                Console.WriteLine($"Student Id {student.StudentId}: {student.FirstName} {student.LastName}");
+                Console.WriteLine($"Student Id {student.StudentId}: {student.FirstName} {student.LastName}. Class: {student.Class}");
             }
-            Console.WriteLine("Press ENTER to return."); 
+            Console.WriteLine("Press ENTER to return..."); 
             Console.ReadLine();
             Console.Clear();
             Students(dbContext);
@@ -124,11 +118,13 @@ namespace Labb3_GymnasiumSchoolDB
 
                 try
                 {
+                    // Retrieve students in the selected class from the database
                     var studentsInClass = dbContext.Students
                         .Where(predicate: s => s.Class == classChoice)
                         .ToList();
                     if (studentsInClass.Any())
                     {
+                        // Display information for each student in the selected class
                         Console.WriteLine($"* Students in Class {classChoice} *");
                         foreach (var student in studentsInClass)
                         {
@@ -145,7 +141,7 @@ namespace Labb3_GymnasiumSchoolDB
                     Console.WriteLine($"Error occured: {ex.Message}");
                 }
 
-                Console.WriteLine("Press ENTER to return.");
+                Console.WriteLine("Press ENTER to return...");
                 Console.ReadLine();
                 Console.Clear();
                 Students(dbContext);
@@ -214,7 +210,7 @@ namespace Labb3_GymnasiumSchoolDB
             {
                 Console.WriteLine($"Error occurred: {ex.Message}");
             }
-            Console.WriteLine("Press ENTER to return.");
+            Console.WriteLine("Press ENTER to return...");
             Console.ReadLine();
             Console.Clear();
             Students(dbContext);

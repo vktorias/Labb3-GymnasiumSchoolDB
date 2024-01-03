@@ -14,6 +14,7 @@ namespace Labb3_GymnasiumSchoolDB.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Role { get; set; }
+        public DateTime EmploymentYear { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
     }

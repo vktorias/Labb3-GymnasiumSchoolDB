@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Labb3_GymnasiumSchoolDB.Models
 {
@@ -11,8 +10,5 @@ namespace Labb3_GymnasiumSchoolDB.Models
         public int TeacherId { get; set; }
 
         public virtual Employee Teacher { get; set; } = null!;
-
-        [NotMapped]
-        public object Enrollments { get; internal set; }
     }
 }
